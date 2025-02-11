@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\userLogin;
 use App\Http\Requests\userRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class userController extends Controller
 {
@@ -16,20 +18,26 @@ class userController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ]);
-    
 
-       return redirect()->route('user.viewLogin');
+
+        return redirect()->route('user.viewLogin');
     }
     public function login(userLogin $request)
     {
         $credentials = ['email' => $request->email, 'password' => $request->password];
 
-        if(auth()->attempt($credentials))
-        {
-            return view('home');
+        if (auth()->guard('web')->attempt($credentials)) {
+            $user = auth()->guard('web')->user();
+            Session(['user' => $user]);
+            return view('home', compact('user'));
         }
-      
-            return redirect()->route('user.viewRegister');
-       
+
+        return redirect()->route('user.viewRegister');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('user.viewLogin');
     }
 }

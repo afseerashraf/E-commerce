@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function home()
+    {
+        $electronics = DB::table('products')->where('categorie', 'electronics')->limit(3)->get();
+        $cosmetics = DB::table('products')->where('categorie', 'cosmetics')->limit(3)->get();
+        $clothes = DB::table('products')->where('categorie', 'clothing')->limit(3)->get();
+
+        return view('home', compact('electronics', 'cosmetics', 'clothes'));
+    }
     public function index(Request $request)
     {
         if($request->ajax())
@@ -20,7 +29,6 @@ class ProductController extends Controller
             $product = Product::query();
             return DataTables::eloquent($product)
            
-
             
             ->addColumn('action', function($product){
                 return '
@@ -51,7 +59,7 @@ class ProductController extends Controller
     public function store(CreateProduct $request)
     {
         $product = new Product();
-       $input = [
+        $input = [
             'name' => $request->name,
             'description' => $request-> description,
             'price' => $request->price,  

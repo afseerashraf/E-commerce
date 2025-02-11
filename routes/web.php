@@ -4,7 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
-
+use  App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +14,7 @@ Route::controller(userController::class)->prefix('user')->name('user.')->group(f
     Route::post('refister', 'register')->name('register');
     Route::view('loginform', 'user.login')->name('viewLogin');
     Route::post('login', 'login')->name('login');
+    Route::get('logout', 'logout')->name('logout');
 });
 
 Route::controller(AdminController::class)->prefix('admin')->name('admin.')->group(function(){
@@ -21,8 +22,15 @@ Route::controller(AdminController::class)->prefix('admin')->name('admin.')->grou
     Route::post('refister', 'register')->name('register');
     Route::view('loginform', 'user.login')->name('viewLogin');
     Route::post('login', 'login')->name('login');
+    Route::get('profile', 'profile')->name('profile');
     Route::get('logout/{id}', 'logout')->name('logout');
 });
 
-Route::resource('products', ProductController::class);
+Route::controller(ProductController::class)->group(function () {
+    Route::get('home', 'home')->name('products.home');
+    Route::resource('products', ProductController::class);
+});
 
+Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
+    Route::get('order/{id}', 'order')->name('order');
+});

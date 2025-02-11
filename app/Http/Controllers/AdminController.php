@@ -31,12 +31,17 @@ class AdminController extends Controller
         {
             $admin = auth()->guard('admin')->user();
             session(['admin' => $admin]);
-            return view('admin.dashboard', compact('admin'));
+            return view('admin.profile', compact('admin'));
 
         }
       
             return redirect()->route('admin.viewRegister');
        
+    }
+
+    public function profile()
+    {
+        return view('admin.profile');
     }
 
     public function logout(string $id)

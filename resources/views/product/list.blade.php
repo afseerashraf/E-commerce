@@ -78,34 +78,34 @@
             });
 
 // Delete user
-            $(document).on('click', '.delete-product', function() {
-                const productId = $(this).data('id');
-               
-                if (userId) {
-                    if (confirm('Are you sure you want to delete this user?')) {
-                        $.ajax({
-                            url: `{{ url('products') }}/${productId}`, // Fixed URL interpolation
-                            type: 'POST', // Use POST instead of DELETE for Laravel
-                            data: {
-                                _method: 'DELETE', // Required for Laravel
-                                _token: "{{ csrf_token() }}",
-                            },
-                            success: function(response) {
-                                if (response.status === 'success') {
-                                    alert('User deleted successfully!');
-                                    table.ajax.reload(null, false); // Reload table data without full refresh
-                                } else {
-                                    alert(response.message);
-                                }
-                            },
-                            error: function(error) {
-                                alert('Something went wrong');
+        $(document).on('click', '.delete-product', function() {
+            const productId = $(this).data('id');
+            
+            if (productId) {
+                if (confirm('Are you sure you want to delete this product?')) {
+                    $.ajax({
+                        url: `{{ url('products') }}/${productId}`, // Fixed URL interpolation
+                        type: 'POST', // Use POST instead of DELETE for Laravel
+                        data: {
+                            _method: 'DELETE', // Required for Laravel
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert('product deleted successfully!');
+                                table.ajax.reload(null, false); // Reload table data without full refresh
+                            } else {
+                                alert(response.message);
                             }
-                        });
-                    }
+                        },
+                        error: function(error) {
+                            alert('Something went wrong');
+                        }
+                    });
                 }
-             });
-        });
-    </script>
+            }
+            });
+    });
+</script>
 
 @endsection

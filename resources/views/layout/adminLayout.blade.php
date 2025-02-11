@@ -124,7 +124,7 @@
        
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="">Dashboard</a>
+        <a href="{{ route('admin.profile') }}">Profile</a>
         <a href="{{ route('products.create') }}">Create Product</a>
 
         <a href="{{ route('products.index') }}">products</a>
