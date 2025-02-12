@@ -28,8 +28,9 @@ class userController extends Controller
 
         if (auth()->guard('web')->attempt($credentials)) {
             $user = auth()->guard('web')->user();
-            Session(['user' => $user]);
-            return view('home', compact('user'));
+            session(['user_id' => $user->id]);
+
+            return redirect()->route('products.home')->with('user', $user);
         }
 
         return redirect()->route('user.viewRegister');

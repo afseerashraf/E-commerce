@@ -22,8 +22,11 @@ Route::controller(AdminController::class)->prefix('admin')->name('admin.')->grou
     Route::post('refister', 'register')->name('register');
     Route::view('loginform', 'user.login')->name('viewLogin');
     Route::post('login', 'login')->name('login');
-    Route::get('profile', 'profile')->name('profile');
-    Route::get('logout/{id}', 'logout')->name('logout');
+    //Route::middleware('auth:admin')->group(function(){
+        Route::get('profile', 'profile')->name('profile');
+        Route::get('logout/{id}', 'logout')->name('logout');
+    //});
+   
 });
 
 Route::controller(ProductController::class)->group(function () {
@@ -32,5 +35,6 @@ Route::controller(ProductController::class)->group(function () {
 });
 
 Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
-    Route::get('order/{id}', 'order')->name('order');
+    Route::get('order', 'store')->name('store');
+    Route::get('show/{id}', 'showOrders')->name('show');
 });

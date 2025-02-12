@@ -8,6 +8,7 @@
 </head>
 <body>
     <!-- Navbar -->
+   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">E-Shop</a>
@@ -18,6 +19,8 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
+                    <a class="nav-link" href="{{ route('order.show', encrypt(Auth::id())) }}">Orders</a>
+
                     <li class="nav-item">
                     <a href="{{ route('user.logout') }}" class="btn btn-danger">Logout</a>
                     </li>
@@ -30,19 +33,19 @@
 
     <div class="container mt-4">
         <!-- Electronics Section -->
-        @if($electronics->isNotEmpty())
+        @if( isset($electronics) && $electronics->isNotEmpty())
             <h2 class="mb-3">Electronics</h2>
             <div class="row g-4">
                 @foreach($electronics as $product)
                     <div class="col-md-4">
                         <div class="card text-center">
-                            <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product">
-                            <div class="card-body">
+                        <img src="{{ asset('storage/uploads/images/' . $product->image) }}" class="card-img-top" alt="Product">
+                        <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text">${{ $product->price }}</p>
                                 <button class="btn btn-primary">Add to Cart</button>
-                                <a href="{{ route('order.order', encrypt($product->id)) }}" class="btn btn-success">Place Order</a>
-                            </div>
+                                <a href="{{ route('products.show', [ encrypt(Auth::id()), encrypt($product->id)]) }}" class="btn btn-success">Place Order</a>
+                                </div>
                         </div>
                     </div>
                 @endforeach
@@ -50,7 +53,7 @@
         @endif
 
         <!-- Cosmetics Section -->
-        @if($cosmetics->isNotEmpty())
+        @if( isset($cosmetics) && $cosmetics->isNotEmpty())
             <h2 class="mt-5 mb-3">Cosmetics</h2>
             <div class="row g-4">
                 @foreach($cosmetics as $product)
@@ -70,7 +73,7 @@
         @endif
 
         <!-- Clothing Section -->
-        @if($clothes->isNotEmpty())
+        @if( isset($clothes) && $clothes->isNotEmpty())
             <h2 class="mt-5 mb-3">Clothing</h2>
             <div class="row g-4">
                 @foreach($clothes as $product)

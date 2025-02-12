@@ -13,6 +13,6 @@ class Product extends Model
 
     protected function orders()
     {
-        $this->hasMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 }

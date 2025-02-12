@@ -8,7 +8,8 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
 class ProductController extends Controller
 {
     /**
@@ -22,6 +23,7 @@ class ProductController extends Controller
 
         return view('home', compact('electronics', 'cosmetics', 'clothes'));
     }
+
     public function index(Request $request)
     {
         if($request->ajax())
@@ -68,7 +70,7 @@ class ProductController extends Controller
         ];
         if($request->hasfile('image')){
             $fileName = time().'_'.$request->image->getClientOriginalExtension();
-            Storage::putFileAs('uploads/images', $request->image, $fileName);
+            Storage::disk('public')->putFileAs('uploads/images', $request->image, $fileName);
             $input['image'] = $fileName;
            }
            $product->create($input);
@@ -79,9 +81,11 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(String $user_id, string $product_id)
     {
-        //
+        $user = User::find(Crypt::decrypt($user_id));
+        $product = Product::find(Crypt::decrypt($product_id));
+        return view('product.order', compact('user', 'product'));
     }
 
     /**
