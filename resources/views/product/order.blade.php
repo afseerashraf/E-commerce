@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.layout')
 
 @section('content')
 <div class="container">
@@ -15,8 +15,8 @@
     <h3 class="mt-4">Place Your Order</h3>
     <form action="{{ route('order.store') }}" method="POST">
         @csrf
-        <input type="hidden" name="customer_id" value="{{ $user->id }}">
-        <input type="hidden" name="product_id" value="{{ $product->id }}">
+        <input type="hidden" name="customer_id" value="{{ encrypt($user->id) }}">
+        <input type="hidden" name="product_id" value="{{ encrypt($product->id) }}">
 
        
         <div class="mb-3">

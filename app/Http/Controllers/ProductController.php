@@ -34,7 +34,7 @@ class ProductController extends Controller
             
             ->addColumn('action', function($product){
                 return '
-                    <a href="'.route('products.edit', $product->id).'" class="btn btn-success">Edit</a>
+                    <a href="'.route('products.edit', $product->id).'" class="btn btn-success edit-product">Edit</a>
                     <button data-id="'.$product->id.'" class="btn btn-danger btn-sm delete-product">Delete</button>
                 ';
             })
@@ -81,7 +81,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(String $user_id, string $product_id)
+    public function showOrder(String $user_id, string $product_id)
     {
         $user = User::find(Crypt::decrypt($user_id));
         $product = Product::find(Crypt::decrypt($product_id));
@@ -109,6 +109,14 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        if($product)
+        {
+            $product->delete();
+            return response()->json(['status' => 'success', 'message' => 'product deleted successfully']);
+
+        }
+        return response()->json(['status' => 'error', 'message' => 'product not found'], 404);
+
     }
 }

@@ -1,67 +1,40 @@
 @extends('layout.layout')
 
-@section('title', 'user Login')
+@section('title', 'User Login')
 
 @section('content')
 
-<style>
-    .login-container {
-        padding-top: 50px;
-        background-color: #f2e7e5;
-        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-    }
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
+        <h3 class="text-center mb-3">User Login</h3>
 
-    .login-container h3 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .login-container form {
-        padding: 20px;
-    }
-
-    .login-container a {
-        display: block;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-</style>
-
-<div class="container">
-    <div class="login-container">
-        <h3>user Login Form</h3>
         @if (Session::has('message'))
-
-        <div class="alert alert-success" role="alert">
-
-            {{ Session::get('message') }}
-
-        </div>
-
+            <div class="alert alert-success text-center" role="alert">
+                {{ Session::get('message') }}
+            </div>
         @endif
-        <a href="{{ route('user.viewRegister') }}">No account? Register here</a>
 
         <form action="{{ route('user.login') }}" method="POST">
             @csrf
+
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
-                @error('email') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                <input type="email" class="form-control" name="email" placeholder="Enter email" value="{{ old('email') }}" required>
+                @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" placeholder="Password">
-                @error('password') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+                @error('password') <div class="text-danger small">{{ $message }}</div> @enderror
             </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-outline-primary">Login</button>
-            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
+
+        <div class="text-center mt-3">
+            <a href="{{ route('user.viewRegister') }}" class="text-decoration-none">No account? Register here</a>
+        </div>
     </div>
 </div>
 

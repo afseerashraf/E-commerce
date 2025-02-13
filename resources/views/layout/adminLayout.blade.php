@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
 
-    <script src="{{ asset('sidebar/sidebar.js') }}"></script>
     <title>@yield('title')</title>
 
     <style>
@@ -128,6 +127,7 @@
         <a href="{{ route('products.create') }}">Create Product</a>
 
         <a href="{{ route('products.index') }}">products</a>
+        <a href="{{ route('order.orders') }}">Orders</a>
        
     </div>
 

@@ -20,7 +20,7 @@ Route::controller(userController::class)->prefix('user')->name('user.')->group(f
 Route::controller(AdminController::class)->prefix('admin')->name('admin.')->group(function(){
     Route::view('register', 'admin.register')->name('viewRegister');
     Route::post('refister', 'register')->name('register');
-    Route::view('loginform', 'user.login')->name('viewLogin');
+    Route::view('loginform', 'admin.login')->name('viewLogin');
     Route::post('login', 'login')->name('login');
     //Route::middleware('auth:admin')->group(function(){
         Route::get('profile', 'profile')->name('profile');
@@ -32,9 +32,12 @@ Route::controller(AdminController::class)->prefix('admin')->name('admin.')->grou
 Route::controller(ProductController::class)->group(function () {
     Route::get('home', 'home')->name('products.home');
     Route::resource('products', ProductController::class);
+    Route::get('/orders/{user}/{product}', 'showOrder')->name('products.showOrder');
+
 });
 
 Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
-    Route::get('order', 'store')->name('store');
+    Route::post('order', 'store')->name('store');
     Route::get('show/{id}', 'showOrders')->name('show');
+    Route::get('orders', 'orders')->name('orders');
 });

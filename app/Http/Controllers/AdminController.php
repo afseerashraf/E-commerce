@@ -32,6 +32,7 @@ class AdminController extends Controller
             $admin = auth()->guard('admin')->user();
             session(['admin' => $admin]);
             return view('admin.profile', compact('admin'));
+            
 
         }
       

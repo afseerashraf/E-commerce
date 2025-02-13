@@ -44,7 +44,7 @@
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text">${{ $product->price }}</p>
                                 <button class="btn btn-primary">Add to Cart</button>
-                                <a href="{{ route('products.show', [ encrypt(Auth::id()), encrypt($product->id)]) }}" class="btn btn-success">Place Order</a>
+                                <a href="{{ route('products.showOrder', [encrypt(Auth::id()), encrypt($product->id)]) }}" class="btn btn-success">Place Order</a>
                                 </div>
                         </div>
                     </div>
@@ -59,12 +59,12 @@
                 @foreach($cosmetics as $product)
                     <div class="col-md-4">
                         <div class="card text-center">
-                            <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product">
+                        <img src="{{ asset('storage/uploads/images/' . $product->image) }}" class="card-img-top" alt="Product">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text">${{ $product->price }}</p>
                                 <button class="btn btn-primary">Add to Cart</button>
-                                <button class="btn btn-success">Place Order</button>
+                                <a href="{{ route('products.showOrder', [encrypt(Auth::id()), encrypt($product->id)]) }}" class="btn btn-success">Place Order</a>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text">${{ $product->price }}</p>
                                 <button class="btn btn-primary">Add to Cart</button>
-                                <button class="btn btn-success">Place Order</button>
+                                <a href="{{ route('products.showOrder', [encrypt(Auth::id()), encrypt($product->id)]) }}" class="btn btn-success">Place Order</a>
                             </div>
                         </div>
                     </div>

@@ -27,7 +27,7 @@ class createOrder extends FormRequest
             'date' => ['required'],
             'name' => ['required'],
             'phone' =>['required', 'numeric',  'digits_between:10,12'],
-            'address' => ['requird'],
+            'address' => ['required'],
         ];
     }
 }
