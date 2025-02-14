@@ -21,7 +21,7 @@
        
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="you'r name" required>
+            <input type="text" id="name" name="name" value="{{ $user->name }}" class="form-control" placeholder="you'r name" required>
         </div>
 
         <div class="mb-3">

@@ -10,11 +10,14 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
+
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    //This function is process only user side
     public function home()
     {
         $electronics = DB::table('products')->where('categorie', 'electronics')->limit(3)->get();
@@ -70,7 +73,9 @@ class ProductController extends Controller
         ];
         if($request->hasfile('image')){
             $fileName = time().'_'.$request->image->getClientOriginalExtension();
+
             Storage::disk('public')->putFileAs('uploads/images', $request->image, $fileName);
+            
             $input['image'] = $fileName;
            }
            $product->create($input);
@@ -81,6 +86,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
+
+        
+    //This function is process only user side
     public function showOrder(String $user_id, string $product_id)
     {
         $user = User::find(Crypt::decrypt($user_id));
@@ -88,6 +96,10 @@ class ProductController extends Controller
         return view('product.order', compact('user', 'product'));
     }
 
+    public function show()
+    {
+
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -119,4 +131,38 @@ class ProductController extends Controller
         return response()->json(['status' => 'error', 'message' => 'product not found'], 404);
 
     }
+
+
+    public function productCart(string $id)
+    {
+        $product = Product::find(Crypt::decrypt($id));
+         Session(['product' => $product]);
+
+        return view('product.cart', compact('product'));
+    }
+
+    public function cartRemove(string $id)
+    {
+        $decryptedId = Crypt::decrypt($id);
+    
+        if (Session::has('product')) {
+            $product = Session::get('product');
+    
+            if ($product->id == $decryptedId) {
+                Session::forget('product');
+    
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Product removed from cart'
+                ]);
+            }
+        }
+    
+        return response()->json([
+            'status' => 'not_found',
+            'message' => 'Product not found in cart'
+        ]);
+    }
+    
+
 }

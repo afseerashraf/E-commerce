@@ -23,6 +23,7 @@ class OrderController extends Controller
          'address' => $request->address,
       ]);
       return redirect()->route('order.orders')->with('success', 'Order placed successfully!');
+     
 
    }
 

@@ -25,7 +25,7 @@ class CreateProduct extends FormRequest
             'name' => ['required'],
             'description' => ['required'],
             'price' => ['required', 'numeric', 'min:0'], // Ensure price is required, numeric, and non-negative
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'], // Optional image validation
+            'image' => ['nullable', 'image'], // Optional image validation
             'categorie' => ['required'],
         ];
     }

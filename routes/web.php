@@ -5,9 +5,10 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use  App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::controller(userController::class)->prefix('user')->name('user.')->group(function(){
     Route::view('registerform', 'user.register')->name('viewRegister');
@@ -22,22 +23,29 @@ Route::controller(AdminController::class)->prefix('admin')->name('admin.')->grou
     Route::post('refister', 'register')->name('register');
     Route::view('loginform', 'admin.login')->name('viewLogin');
     Route::post('login', 'login')->name('login');
-    //Route::middleware('auth:admin')->group(function(){
+    Route::middleware('auth:admin')->group(function(){
         Route::get('profile', 'profile')->name('profile');
         Route::get('logout/{id}', 'logout')->name('logout');
-    //});
+    });
    
 });
 
 Route::controller(ProductController::class)->group(function () {
-    Route::get('home', 'home')->name('products.home');
-    Route::resource('products', ProductController::class);
-    Route::get('/orders/{user}/{product}', 'showOrder')->name('products.showOrder');
+    Route::middleware('auth')->name('products.')->group(function(){
+        Route::get('home', 'home')->name('home')->middleware('auth');
+        Route::get('/orders/{user}/{product}', 'showOrder')->name('showOrder')->middleware('auth');
+        Route::get('cart/{id}', 'productCart')->name('cart');
+        Route::post('remove/{id}', 'cartRemove')->name('cartRemove');
+    });
+   
+
+    Route::resource('products', ProductController::class)->middleware('auth:admin');
 
 });
 
 Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
     Route::post('order', 'store')->name('store');
-    Route::get('show/{id}', 'showOrders')->name('show');
-    Route::get('orders', 'orders')->name('orders');
+    Route::get('orders', 'orders')->name('orders')->middleware('auth:admin');
+    Route::get('show/{id}', 'showOrders')->name('show')->middleware('auth');
+
 });
