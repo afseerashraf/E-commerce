@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="container">
+
+@if(Session()->has('success'))
+    <p>{{ Session::get('success') }}</p>
+@endif
     <h2 class="mb-4">Product Details</h2>
 
     <div class="card">

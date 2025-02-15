@@ -46,10 +46,13 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
     Route::get('orders', 'orders')->name('orders')->middleware('auth:admin');
-    Route::post('order', 'store')->name('store');
-    Route::post('remove/{id}',  'removeOrder')->name('remove');
-
-    Route::get('show/{id}', 'showOrders')->name('show')->middleware('auth');
+    
+    Route::middleware('auth')->group(function(){
+        Route::post('order', 'store')->name('store');
+        Route::post('remove/{id}',  'removeOrder')->name('remove');
+        Route::get('show/{id}', 'showOrders')->name('show')->middleware('auth');
+    });
+    
 
 });
 

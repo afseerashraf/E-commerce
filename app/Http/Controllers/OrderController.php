@@ -16,18 +16,26 @@ class OrderController extends Controller
    {
       $order = new Order();
 
-      $store = $order->create([
+      $productID = Crypt::decrypt($request->product_id);
+      $userID = Crypt::decrypt($request->customer_id);
 
-         'customer_id' => Crypt::decrypt($request->customer_id),
-         'product_id' =>Crypt::decrypt($request->product_id),
+      if(Order::where('product_id', $productID)->exists())
+      {
+         return "The product you already ordered";
+      }
+      $order->create([
+
+         'customer_id' => $userID ,
+         'product_id' => $productID,
          'date' => now(),
          'name' => $request->name,
          'phone' => $request->phone,
          'address' => $request->address,
 
       ]);
+      
 
-      return redirect()->route('order.orders')->with('success', 'Order placed successfully!');
+      return redirect()->back()->with('success', 'Order placed successfully!');
 
    }
 
