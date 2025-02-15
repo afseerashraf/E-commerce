@@ -1,13 +1,13 @@
 @extends('layout.layout')
 
-@section('title', 'Shopping Cart')
+@section('title', 'Shopping Cart') 
 
 @section('content')
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">🛒 Your Shopping Cart</h2>
 
-@if(session('product'))
+@if(session()->has('product'))
   
     <div class="card shadow-lg border-0 rounded-3">
         <div class="card-body">
@@ -23,20 +23,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(Session::has('product'))
                         <tr>
-                            <td><strong>{{ session('product')->name }}</strong></td>
-                            <td><img src="{{ asset('storage/uploads/images/' . Session('product')->image) }}" width="60" height="60" class="rounded shadow-sm"></td>
-                            <td>${{ number_format(session('product')->price, 2) }}</td>
+                            <td>{{ session()->get('product')->name }}</td>
                             <td>
-                               
+
+                                <img src="{{ asset('storage/uploads/images/'. session()->get('product')->image) }}" alt="" style=" width:90px; height:90px;">
                             </td>
-                            <td>
-                                <form action="{{ route('products.cartRemove', encrypt(session('product')->id ) ) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">❌</button>
-                                </form>
-                            </td>
+                            <td>{{ session()->get('product')->price }}</td>
+
                         </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

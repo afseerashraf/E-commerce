@@ -17,6 +17,7 @@
                             <th>Price</th>
                             <th>Image</th>
                             <th>Category</th>
+                            <th>Created at</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -67,6 +68,10 @@
                     {
                         data: 'categorie',
                         name: 'categorie',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
                     },
                     {
                         data: 'action',

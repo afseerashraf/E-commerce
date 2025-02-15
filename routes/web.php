@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use  App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     return view('home');
@@ -44,8 +45,23 @@ Route::controller(ProductController::class)->group(function () {
 });
 
 Route::controller(OrderController::class)->prefix('order')->name('order.')->group(function(){
-    Route::post('order', 'store')->name('store');
     Route::get('orders', 'orders')->name('orders')->middleware('auth:admin');
+    Route::post('order', 'store')->name('store');
+    Route::post('remove/{id}',  'removeOrder')->name('remove');
+
     Route::get('show/{id}', 'showOrders')->name('show')->middleware('auth');
 
+});
+
+
+Route::get('session', function(){
+    $name = Session::put('name', 'afseer');
+    Session::push('age', 24);
+
+    if(session()->has('age'))
+    {
+        dd(Session::get('age'));
+        
+    }
+    return 'no name';
 });

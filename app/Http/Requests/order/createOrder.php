@@ -24,7 +24,6 @@ class createOrder extends FormRequest
         return [
             'customer_id' => ['required'],
             'product_id' => ['required'],
-            'date' => ['required'],
             'name' => ['required'],
             'phone' =>['required', 'numeric',  'digits_between:10,12'],
             'address' => ['required'],

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
@@ -20,9 +21,9 @@ class ProductController extends Controller
     //This function is process only user side
     public function home()
     {
-        $electronics = DB::table('products')->where('categorie', 'electronics')->limit(3)->get();
-        $cosmetics = DB::table('products')->where('categorie', 'cosmetics')->limit(3)->get();
-        $clothes = DB::table('products')->where('categorie', 'clothing')->limit(3)->get();
+        $electronics = DB::table('products')->where('categorie', 'electronics')->latest()->limit(3)->get();
+        $cosmetics = DB::table('products')->where('categorie', 'cosmetics')->latest()->limit(3)->get();
+        $clothes = DB::table('products')->where('categorie', 'clothing')->latest()->limit(3)->get();
 
         return view('home', compact('electronics', 'cosmetics', 'clothes'));
     }
@@ -34,7 +35,10 @@ class ProductController extends Controller
             $product = Product::query();
             return DataTables::eloquent($product)
            
-            
+            ->addColumn('created_at', function($product){
+                return Carbon::parse($product->created_at)->format('Y-m-d');
+
+            })
             ->addColumn('action', function($product){
                 return '
                     <a href="'.route('products.edit', $product->id).'" class="btn btn-success edit-product">Edit</a>
@@ -71,16 +75,18 @@ class ProductController extends Controller
             'categorie' => $request->categorie, 
          
         ];
+       
         if($request->hasfile('image')){
-            $fileName = time().'_'.$request->image->getClientOriginalExtension();
+            $fileName = time().'.'.$request->image->getClientOriginalExtension();
 
             Storage::disk('public')->putFileAs('uploads/images', $request->image, $fileName);
             
             $input['image'] = $fileName;
+            
            }
-           $product->create($input);
+        $product->create($input);
 
-           return redirect()->route('products.create')->with('success', 'Success fully created new product');
+        return redirect()->route('products.create')->with('success', 'Success fully created new product');
     }
 
     /**
@@ -136,9 +142,9 @@ class ProductController extends Controller
     public function productCart(string $id)
     {
         $product = Product::find(Crypt::decrypt($id));
-         Session(['product' => $product]);
+        Session::put('product', $product);
 
-        return view('product.cart', compact('product'));
+        return view('product.cart');
     }
 
     public function cartRemove(string $id)

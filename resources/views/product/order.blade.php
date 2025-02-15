@@ -26,7 +26,7 @@
 
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
-            <input type="text" id="phone" name="phone" class="form-control" placeholder="+91" required>
+            <input type="text" id="phone" name="phone" class="form-control" placeholder="+91 9645262473" required>
         </div>
 
         <div class="mb-3">

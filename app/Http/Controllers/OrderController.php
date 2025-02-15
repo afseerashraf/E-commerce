@@ -8,22 +8,26 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\order\createOrder;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
    public function store(createOrder $request)
    {
       $order = new Order();
-      $order->create([
+
+      $store = $order->create([
+
          'customer_id' => Crypt::decrypt($request->customer_id),
          'product_id' =>Crypt::decrypt($request->product_id),
          'date' => now(),
          'name' => $request->name,
          'phone' => $request->phone,
          'address' => $request->address,
+
       ]);
+
       return redirect()->route('order.orders')->with('success', 'Order placed successfully!');
-     
 
    }
 
@@ -34,14 +38,25 @@ class OrderController extends Controller
       if (!$user) {
          return abort(404, 'User not found');
       }
-
-      return view('user.order', compact('user'));
+      
+    
+     return view('user.order', compact('user'));
    }
 
    public function orders()
    {
-      $orders = Order::all();
+      $orders = Order::latest()->get();
 
       return view('order.orders', compact('orders'));
    }
+
+   public function removeOrder($id)
+   {
+      $order = Order::find(Crypt::decrypt($id));
+      $order->delete();
+
+      return redirect()->back()->with('removerOrder', "successfullly remove you'r order ");
+   }
+
+   
 }
