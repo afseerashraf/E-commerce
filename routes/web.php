@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
-    return view('home');
+    return view('user.login');
 });
 Route::controller(userController::class)->prefix('user')->name('user.')->group(function(){
     Route::view('registerform', 'user.register')->name('viewRegister');
@@ -56,15 +56,3 @@ Route::controller(OrderController::class)->prefix('order')->name('order.')->grou
 
 });
 
-
-Route::get('session', function(){
-    $name = Session::put('name', 'afseer');
-    Session::push('age', 24);
-
-    if(session()->has('age'))
-    {
-        dd(Session::get('age'));
-        
-    }
-    return 'no name';
-});

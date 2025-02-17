@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\order\createOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use App\Jobs\SendMailOrder;
+
+
 
 class OrderController extends Controller
 {
@@ -23,7 +26,7 @@ class OrderController extends Controller
       {
          return "The product you already ordered";
       }
-      $order->create([
+       $order->create([
 
          'customer_id' => $userID ,
          'product_id' => $productID,
@@ -33,7 +36,7 @@ class OrderController extends Controller
          'address' => $request->address,
 
       ]);
-      
+      SendMailOrder::dispatch($order);
 
       return redirect()->back()->with('success', 'Order placed successfully!');
 
@@ -68,3 +71,4 @@ class OrderController extends Controller
 
    
 }
+
