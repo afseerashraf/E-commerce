@@ -26,6 +26,7 @@ class AdminRegister extends FormRequest
             'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required',password::min(8)->letters()->numbers()],
+            'image' => ['image'],
         ];
     }
 }

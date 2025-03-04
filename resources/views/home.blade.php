@@ -178,6 +178,9 @@
 
     <!-- Main Content -->
     <div class="container">
+    @if(Session()->has('success'))
+        <p>{{ Session::get('success') }}</p>
+    @endif
         <!-- Electronics Section -->
         @if(isset($electronics) && $electronics->isNotEmpty())
             <h2 class="section-title">Electronics</h2>

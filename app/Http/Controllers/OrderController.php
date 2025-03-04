@@ -10,8 +10,7 @@ use App\Http\Requests\order\createOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use App\Jobs\SendMailOrder;
-
-
+use App\Notifications\addtoCart;
 
 class OrderController extends Controller
 {
@@ -20,6 +19,7 @@ class OrderController extends Controller
       $order = new Order();
 
       $productID = Crypt::decrypt($request->product_id);
+      
       $userID = Crypt::decrypt($request->customer_id);
 
       if(Order::where('product_id', $productID)->exists())
@@ -36,9 +36,13 @@ class OrderController extends Controller
          'address' => $request->address,
 
       ]);
+
       SendMailOrder::dispatch($order);
 
-      return redirect()->back()->with('success', 'Order placed successfully!');
+      $order->notify((new addtoCart($order)));
+
+
+      return redirect()->route('products.home')->with('success', 'Order placed successfully!');
 
    }
 

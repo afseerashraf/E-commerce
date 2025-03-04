@@ -9,7 +9,7 @@
         <div class="card-body p-4">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-user-circle me-3 text-primary" style="font-size: 1.5rem;"></i>
+                    <img src="{{ asset('storage/uploads/images/' . $admin->image) }}" class="card-img-top" alt="admin" style="width:50px; height:50px; border-radius:50%;">
                     <strong>Name:</strong> <span class="ms-2">{{ session('admin')->name }}</span>
                 </li>
                 <li class="list-group-item d-flex align-items-center">

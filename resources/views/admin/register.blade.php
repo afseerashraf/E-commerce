@@ -71,7 +71,7 @@
         
         <a href="{{ route('admin.viewLogin') }}">Already have an account? Login here</a>
 
-        <form action="{{ route('admin.register') }}" method="POST">
+        <form action="{{ route('admin.register') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -90,6 +90,11 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" name="password" placeholder="Enter password" required>
                 @error('password') <div class="alert alert-danger">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="image">Image</label>
+                <input type="file" class="form-control" name="image">
             </div>
 
             <div class="d-grid">

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\admin\AdminRegister;
 use App\Http\Requests\admin\AdminLogin;
 use Illuminate\Support\Facades\Crypt;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 
@@ -14,12 +14,24 @@ class AdminController extends Controller
     public function register(AdminRegister $request)
     {
         $admin = new Admin();
-        $admin->create([
+
+       
+        $input = [
+
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
+           
+        ];
 
-        ]);
+        if($request->hasfile('image')){
+            
+            $fileName = time().'.'.$request->image->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('uploads/images', $request->image, $fileName);
+            $input['image'] = $fileName;
+        }
+
+        $admin->create($input);
 
         return redirect()->route('admin.viewLogin');
     }

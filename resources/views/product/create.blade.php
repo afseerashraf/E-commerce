@@ -21,7 +21,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" name="description" rows="3" placeholder="Enter product description">{{ old('description') }}</textarea>
+                <textarea class="form-control" name="description" rows="3" placeholder="Enter product description">  </textarea>
             </div>
 
             <div class="mb-3">
