@@ -54,7 +54,9 @@ class AdminController extends Controller
 
     public function profile()
     {
-        return view('admin.profile');
+        $admin = auth()->guard('admin')->user();
+
+        return view('admin.profile', compact('admin'));
     }
 
     public function logout(string $id)
@@ -64,3 +66,4 @@ class AdminController extends Controller
         return redirect()->route('admin.viewLogin');
     }
 }
+

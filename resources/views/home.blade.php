@@ -181,6 +181,10 @@
     @if(Session()->has('success'))
         <p>{{ Session::get('success') }}</p>
     @endif
+
+    @if(session()->has('NoOrder'))
+        <p>{{ Session()->get('NoOrder')}}</p>
+    @endif
         <!-- Electronics Section -->
         @if(isset($electronics) && $electronics->isNotEmpty())
             <h2 class="section-title">Electronics</h2>
@@ -188,7 +192,7 @@
                 @foreach($electronics as $product)
                     <div class="col-md-4">
                         <div class="card text-center">
-                            <img src="{{ asset('storage/uploads/images/' . $product->image) }}" class="card-img-top" alt="Product">
+                            <img src="{{ asset('storage/uploads/images/' . $product->image) }}" class="card-img-top" alt="Product" style=" width:350px; height:150px;">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text text-muted">${{ $product->price }}</p>

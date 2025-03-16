@@ -1,17 +1,18 @@
 @extends('layout.adminLayout')
 @section('title')create products @endsection
 
+
 @section('content')
 <div class="container py-5">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Data Table</h5>
+                <h5 class="card-title">Products</h5>
             </div>
             <div class="card-body">
                 <table class="table table-stripped datatable">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th>P Number</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Price</th>

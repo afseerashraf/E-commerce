@@ -86,7 +86,7 @@ class ProductController extends Controller
            }
         $product->create($input);
 
-        return redirect()->route('products.create')->with('success', 'Success fully created new product');
+        return redirect()->route('products.create')->flash('success', 'Success fully created new product');
     }
 
     /**
